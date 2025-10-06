@@ -4,8 +4,8 @@
 
 int BMR(int gender, int height, int weight, int years);
 int Daily_Calories(int bmr);
-int Balance (int calories);
-int PFC (int balance, int calories, int or);
+int Balance(int calories);
+int PFC(int balance, int calories, int or);
 
 int main(void)
 {
@@ -65,13 +65,13 @@ int Daily_Calories(int bmr)
         printf("Ваш выбор: ");
         scanf("%i", &coef);
         
-        if (coef < 1 && coef > 5)
+        if (coef < 1 || coef > 5)
         { 
             cprintf(C_RED, "Ошибка! Введите число от 1 до 5\n"); 
         }
         while (getchar() != '\n');
     } 
-    while (coef < 1 && coef > 5);
+    while (coef < 1 || coef > 5);
 
     double coef2;
     switch (coef)
@@ -95,12 +95,12 @@ int Daily_Calories(int bmr)
     return calories;
 }
 
-int Balance (int calories)
+int Balance(int calories)
 {
     int or;
     do
     {
-        printf("Отлично! Теперь давайте определим что вы хотите сделать (1 - похудеть, 2 - набрать): ");
+        printf("Отлично! Теперь давайте определим что вы хотите сделать (1 - похудеть, 2 - набрать массу): ");
         scanf("%i", &or);
         
         if (or != 1 && or != 2)
@@ -120,35 +120,39 @@ int Balance (int calories)
     {
         balance = calories + 400;
     }
-    cprintf (C_BLUE,"Для достижения вашей цели вам нужно питаться на %i ккал в день\n", balance);
+    cprintf(C_BLUE, "\nДля достижения вашей цели вам нужно питаться на %i ккал в день\n", balance);
 
-    PFC (balance, calories, or);
+    PFC(balance, calories, or);
 
     return balance;
 }
 
-int PFC (int balance, int calories, int or)
+int PFC(int balance, int calories, int or)
 {
-    if (or == 1)
+    cprintf(C_CYAN, "\n--- Рекомендуемое распределение БЖУ ---\n");
+    
+    if (or == 1) // похудение
     {
-    double proteins = (balance * 0.3) / 4;
-    m_mprintf("Б: ≈%.0f\n", proteins);
+        double proteins = (balance * 0.3) / 4;
+        m_mprintf("Белки: ≈%.0f г\n", proteins);
 
-    double fats = (balance * 0.3) / 9;
-    m_mprintf("Ж: ≈%.0f\n", fats);
+        double fats = (balance * 0.3) / 9;
+        m_mprintf("Жиры: ≈%.0f г\n", fats);
 
-    double carbohydrates = (balance * 0.4) / 4;
-    m_mprintf("У: ≈%.0f\n", carbohydrates);
+        double carbohydrates = (balance * 0.4) / 4;
+        m_mprintf("Углеводы: ≈%.0f г\n", carbohydrates);
     }
-    else
+    else if (or == 2) // набор массы
     {
-       double proteins = (balance * 0.3) / 4;
-    m_mprintf("Б: ≈%.0f\n", proteins);
+        double proteins = (balance * 0.25) / 4;
+        m_mprintf("Белки: ≈%.0f г\n", proteins);
+        
+        double fats = (balance * 0.25) / 9;
+        m_mprintf("Жиры: ≈%.0f г\n", fats);
 
-    double fats = (balance * 0.4) / 9;
-    m_mprintf("Ж: ≈%.0f\n", fats);
-
-    double carbohydrates = (balance * 0.3) / 4;
-    m_mprintf("У: ≈%.0f\n", carbohydrates); 
+        double carbohydrates = (balance * 0.5) / 4;
+        m_mprintf("Углеводы: ≈%.0f г\n", carbohydrates);
     }
+    
+    return 0;
 }
