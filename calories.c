@@ -5,6 +5,7 @@
 int BMR(int gender, int height, int weight, int years);
 int Daily_Calories(int bmr);
 int Balance (int calories);
+int PFC (int balance, int calories, int or);
 
 int main(void)
 {
@@ -27,6 +28,7 @@ int main(void)
     int years = m_get_int("Укажите возраст в годах: ");
 
     int bmr = BMR(gender, height, weight, years);
+    
     Daily_Calories(bmr);
     
     return 0;
@@ -45,6 +47,7 @@ int BMR(int gender, int height, int weight, int years)
     }
     
     cprintf(C_YELLOW, "Ваш базовый метаболизм (BMR): %i ккал\n", bmr);
+
     return bmr;
 }
 
@@ -90,7 +93,6 @@ int Daily_Calories(int bmr)
     Balance(calories);
 
     return calories;
-
 }
 
 int Balance (int calories)
@@ -110,7 +112,7 @@ int Balance (int calories)
     while (or != 1 && or != 2);
 
     int balance;
-    if ( or == 1)
+    if (or == 1)
     {
         balance = calories - 400;
     }
@@ -120,5 +122,33 @@ int Balance (int calories)
     }
     cprintf (C_BLUE,"Для достижения вашей цели вам нужно питаться на %i ккал в день\n", balance);
 
+    PFC (balance, calories, or);
+
     return balance;
+}
+
+int PFC (int balance, int calories, int or)
+{
+    if (or == 1)
+    {
+    double proteins = (balance * 0.3) / 4;
+    m_mprintf("Б: ≈%.0f\n", proteins);
+
+    double fats = (balance * 0.3) / 9;
+    m_mprintf("Ж: ≈%.0f\n", fats);
+
+    double carbohydrates = (balance * 0.4) / 4;
+    m_mprintf("У: ≈%.0f\n", carbohydrates);
+    }
+    else
+    {
+       double proteins = (balance * 0.3) / 4;
+    m_mprintf("Б: ≈%.0f\n", proteins);
+
+    double fats = (balance * 0.4) / 9;
+    m_mprintf("Ж: ≈%.0f\n", fats);
+
+    double carbohydrates = (balance * 0.3) / 4;
+    m_mprintf("У: ≈%.0f\n", carbohydrates); 
+    }
 }
